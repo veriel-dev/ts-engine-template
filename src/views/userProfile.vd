@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de {{name}}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .admin-badge {
+            background-color: #ffA500;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Perfil de Usuario</h1>
+        <p>
+            Nombre: {{name}} 
+            {% if isAdmin %}
+                <span class="admin-badge">Admin</span>
+            {% endif %}
+        </p>
+        <p>Edad: {{age}}</p>
+        
+        {% if age < 18 %}
+            <p class="warning">Este usuario es menor de edad.</p>
+        {% else if age >= 18 && age < 65 %}
+            <p class="info">Este usuario es un adulto en edad laboral.</p>
+        {% else %}
+            <p class="info">Este usuario es un adulto mayor.</p>
+        {% endif %}
+        
+        <h2>Habilidades:</h2>
+        <ul>
+        {% for skill in skills %}
+            <li>{{skill}}</li>
+        {% endfor %}
+        </ul>
+        
+        {% if skills.length > 3 || (isAdmin && yearsExperience(startYear) > 5) %}
+            <p class="info">Usuario altamente calificado</p>
+        {% endif %}
+        
+        <p>Años de experiencia: {% yearsExperience(startYear) %}</p>
+        
+        {% if projects && projects.length > 0 %}
+        <h2>Proyectos:</h2>
+        <ul>
+        {% for project in projects %}
+            <li>{{project.name}} - {{project.role}}</li>
+        {% endfor %}
+        </ul>
+        {% else %}
+        <p>No hay proyectos para mostrar.</p>
+        {% endif %}
+        
+        <p>Perfil actualizado el {% currentDate() %}</p>
+    </div>
+</body>
+</html>
